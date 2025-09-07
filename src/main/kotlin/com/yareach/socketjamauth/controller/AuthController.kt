@@ -3,7 +3,9 @@ package com.yareach.socketjamauth.controller
 import com.yareach.socketjamauth.dto.auth.AuthCheckDto
 import com.yareach.socketjamauth.dto.auth.AuthDetail
 import com.yareach.socketjamauth.dto.auth.TokenRequestDto
+import com.yareach.socketjamauth.dto.jwt.JwksDto
 import com.yareach.socketjamauth.service.AuthService
+import com.yareach.socketjamauth.service.JwtService
 import com.yareach.socketjamcommon.config.security.CustomUserDetail
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/auth")
 class AuthController(
     private val authService: AuthService,
+    private val jwtService: JwtService,
 ) {
 
     @PostMapping("/token")
@@ -46,5 +49,10 @@ class AuthController(
                 AuthDetail(user.userId, user.nickName, user.role)
             )
         )
+    }
+
+    @GetMapping("/public-key")
+    suspend fun getPublicKey(): JwksDto {
+        return jwtService.getJwks()
     }
 }

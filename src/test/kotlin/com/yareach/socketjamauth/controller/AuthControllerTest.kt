@@ -27,11 +27,9 @@ import kotlin.toString
 @AutoConfigureMockMvc
 class AuthControllerTest @Autowired constructor (
     jwtTokenEncoder: JwtTokenEncoder,
-    @Autowired private val jwtTokenDecoder: JwtTokenDecoder,
+    private val jwtTokenDecoder: JwtTokenDecoder,
     val webTestClient: WebTestClient,
-    tokenDecoder: JwtTokenDecoder,
 ) {
-    @Value("\${spring.jwt.private-key}") lateinit var privateKey: String
     @Value("\${spring.jwt.public-key}") lateinit var publicKey: String
 
     val testUser = UserVo(
