@@ -27,8 +27,9 @@ import kotlin.toString
 @AutoConfigureMockMvc
 class AuthControllerTest @Autowired constructor (
     jwtTokenEncoder: JwtTokenEncoder,
+    private val jwtUtil: JwtUtil,
     private val jwtTokenDecoder: JwtTokenDecoder,
-    val webTestClient: WebTestClient,
+    private val webTestClient: WebTestClient,
 ) {
     @Value("\${spring.jwt.public-key}") lateinit var publicKey: String
 
@@ -37,15 +38,6 @@ class AuthControllerTest @Autowired constructor (
         "testUser"
     )
     val testUserToken = jwtTokenEncoder.createJwt(testUser.nickName, testUser.userId)
-
-    @BeforeTest
-    fun test() {
-        val k = jwtTokenDecoder.getUserVo(testUserToken)
-        println("=============================")
-        println("nickname : ${k.nickName}")
-        println("userId : ${k.userId}")
-        println("=============================")
-    }
 
     @Test
     @DisplayName("Token 생성 테스트")
@@ -66,7 +58,7 @@ class AuthControllerTest @Autowired constructor (
         val auth = result.responseHeaders["Authorization"]!![0]
 
         val token = auth.split(" ")[1]
-        val payload = Jwts.parser().verifyWith(JwtUtil.stringToPublicKey(publicKey)).build().parseSignedClaims(token).payload
+        val payload = Jwts.parser().verifyWith(jwtUtil.stringToPublicKey(publicKey)).build().parseSignedClaims(token).payload
 
         assertNotNull(payload["nickName"])
         assertEquals("testUser", payload["nickName"])

@@ -6,25 +6,33 @@ import com.yareach.socketjamcommon.util.JwtUtil
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 
 @Configuration
-class JwtTokenConfig {
+class JwtTokenConfig(
+    private val jwtUtil: JwtUtil,
+) {
     @Bean
     fun jwtPublicKey(
         @Value("\${spring.jwt.public-key}") key: String,
-    ) = JwtUtil.stringToPublicKey(key) as RSAPublicKey
+    ) = jwtUtil.stringToPublicKey(key)
+
+    @Bean
+    fun jwtPrivateKey(
+        @Value("\${spring.jwt.private-key}") key: String,
+    ) = jwtUtil.stringToPrivateKey(key)
 
     @Bean
     fun jwtTokenEncoder(
-        @Value("\${spring.jwt.private-key}") privateKey: String,
+        privateKey: RSAPrivateKey
     ): JwtTokenEncoder {
         return JwtTokenEncoder.fromPrivateKey(privateKey)
     }
 
     @Bean
     fun jwtTokenDecoder(
-        @Value("\${spring.jwt.public-key}") publicKey: String,
+        publicKey: RSAPublicKey
     ): JwtTokenDecoder {
         return JwtTokenDecoder.fromPublicKey(publicKey)
     }

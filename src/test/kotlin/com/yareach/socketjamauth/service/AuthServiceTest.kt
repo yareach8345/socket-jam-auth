@@ -1,26 +1,27 @@
 package com.yareach.socketjamauth.service
 
 import com.yareach.socketjamcommon.domain.security.JwtTokenEncoder
+import com.yareach.socketjamcommon.util.JwtUtil
 import io.jsonwebtoken.Jwts
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.DisplayName
 import java.util.UUID
 import javax.crypto.SecretKey
-import javax.crypto.spec.SecretKeySpec
 import kotlin.jvm.java
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import kotlin.text.toByteArray
 import kotlin.toString
 
 class AuthServiceTest {
+    val jwtUtil = JwtUtil()
+
     val secretString: String = "a-string-secret-256-bits-long-for-test"
 
-    val secretKey: SecretKey = SecretKeySpec(secretString.toByteArray(), Jwts.SIG.HS256.key().build().algorithm)
+    val secretKey: SecretKey = jwtUtil.stringToSecretKey(secretString)
 
-    val authService = AuthService(JwtTokenEncoder.fromSecretKey(secretString))
+    val authService = AuthService(JwtTokenEncoder.fromSecretKey(secretKey))
 
     @Test
     @DisplayName("토큰 생성 테스트")

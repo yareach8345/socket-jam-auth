@@ -3,10 +3,10 @@ package com.yareach.socketjamauth.controller
 import com.yareach.socketjamauth.dto.auth.AuthCheckDto
 import com.yareach.socketjamauth.dto.auth.AuthDetail
 import com.yareach.socketjamauth.dto.auth.TokenRequestDto
-import com.yareach.socketjamauth.dto.jwt.JwksDto
 import com.yareach.socketjamauth.service.AuthService
 import com.yareach.socketjamauth.service.JwtService
 import com.yareach.socketjamcommon.config.security.CustomUserDetail
+import com.yareach.socketjamcommon.dto.JwksDto
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
