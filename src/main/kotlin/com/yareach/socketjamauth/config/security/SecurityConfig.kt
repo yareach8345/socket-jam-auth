@@ -25,10 +25,7 @@ class SecurityConfig(
         .httpBasic{ it.disable() }
         .logout{ it.disable() }
         .authorizeExchange{
-            it
-                .pathMatchers("/api/v1/rooms/search").permitAll()
-                .pathMatchers("/api/v1/rooms/**").authenticated()
-                .anyExchange().permitAll()
+            it.anyExchange().permitAll()
         }
         .addFilterBefore(jwtFilter, SecurityWebFiltersOrder.AUTHORIZATION)
         .build()

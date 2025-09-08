@@ -1,5 +1,6 @@
 package com.yareach.socketjamauth.config.security
 
+import com.yareach.socketjamauth.utils.ResourceUtil
 import com.yareach.socketjamcommon.domain.security.JwtTokenDecoder
 import com.yareach.socketjamcommon.domain.security.JwtTokenEncoder
 import com.yareach.socketjamcommon.utils.KeyConverter
@@ -11,17 +12,22 @@ import java.security.interfaces.RSAPublicKey
 
 @Configuration
 class JwtTokenConfig(
+    private val resourceUtil: ResourceUtil,
     private val keyConverter: KeyConverter,
 ) {
     @Bean
     fun jwtPublicKey(
-        @Value("\${spring.security.public-key}") key: String,
-    ) = keyConverter.stringToPublicKey(key)
+        @Value("\${spring.security.public-key-path}") path: String,
+    ) = resourceUtil
+        .readResourceFile(path)
+        .let { resource -> keyConverter.stringToPublicKey(resource) }
 
     @Bean
     fun jwtPrivateKey(
-        @Value("\${spring.security.private-key}") key: String,
-    ) = keyConverter.stringToPrivateKey(key)
+        @Value("\${spring.security.private-key-path}") path: String,
+    ) = resourceUtil
+        .readResourceFile(path)
+        .let { resource -> keyConverter.stringToPrivateKey(resource) }
 
     @Bean
     fun jwtTokenEncoder(

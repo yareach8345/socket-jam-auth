@@ -2,8 +2,8 @@ spring:
   application:
     name: socket-jam-auth
   security:
-    public-key: ${JWT_PUBLIC_KEY}
-    private-key: ${JWT_PRIVATE_KEY}
+    public-key-path: keys/public.pem
+    private-key-path: keys/private.pem
 
 eureka:
   client:
