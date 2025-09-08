@@ -15,7 +15,7 @@ class JwtServiceTest {
 
     val testPublicKey = keyConverter.stringToPublicKey(testPublicKeyString)
 
-    val jwtService = JwtService(keyConverter, testPublicKey)
+    val jwtService = KeyService(keyConverter, testPublicKey)
 
     @Test
     @DisplayName("public key 공유를 위한 jwks 생성")

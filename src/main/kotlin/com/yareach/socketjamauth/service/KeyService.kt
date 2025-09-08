@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 import java.security.interfaces.RSAPublicKey
 
 @Service
-class JwtService(
+class KeyService(
     keyConverter: KeyConverter,
     publicKey: RSAPublicKey,
 ) {
