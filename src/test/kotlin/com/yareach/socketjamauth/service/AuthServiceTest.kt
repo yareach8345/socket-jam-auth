@@ -1,7 +1,7 @@
 package com.yareach.socketjamauth.service
 
 import com.yareach.socketjamcommon.domain.security.JwtTokenEncoder
-import com.yareach.socketjamcommon.util.JwtUtil
+import com.yareach.socketjamcommon.utils.KeyConverter
 import io.jsonwebtoken.Jwts
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertInstanceOf
@@ -15,11 +15,11 @@ import kotlin.test.assertNotNull
 import kotlin.toString
 
 class AuthServiceTest {
-    val jwtUtil = JwtUtil()
+    val keyConverter = KeyConverter()
 
     val secretString: String = "a-string-secret-256-bits-long-for-test"
 
-    val secretKey: SecretKey = jwtUtil.stringToSecretKey(secretString)
+    val secretKey: SecretKey = keyConverter.stringToSecretKey(secretString)
 
     val authService = AuthService(JwtTokenEncoder.fromSecretKey(secretKey))
 

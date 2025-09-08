@@ -3,7 +3,7 @@ package com.yareach.socketjamauth.controller
 import com.yareach.socketjamauth.dto.auth.TokenRequestDto
 import com.yareach.socketjamcommon.domain.security.JwtTokenDecoder
 import com.yareach.socketjamcommon.domain.security.JwtTokenEncoder
-import com.yareach.socketjamcommon.util.JwtUtil
+import com.yareach.socketjamcommon.utils.KeyConverter
 import com.yareach.socketjamcommon.vo.user.UserVo
 import io.jsonwebtoken.Jwts
 import org.junit.jupiter.api.Assertions.assertInstanceOf
@@ -17,7 +17,6 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.util.UUID
 import kotlin.jvm.java
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.text.split
@@ -27,7 +26,7 @@ import kotlin.toString
 @AutoConfigureMockMvc
 class AuthControllerTest @Autowired constructor (
     jwtTokenEncoder: JwtTokenEncoder,
-    private val jwtUtil: JwtUtil,
+    private val keyConverter: KeyConverter,
     private val jwtTokenDecoder: JwtTokenDecoder,
     private val webTestClient: WebTestClient,
 ) {
@@ -58,7 +57,7 @@ class AuthControllerTest @Autowired constructor (
         val auth = result.responseHeaders["Authorization"]!![0]
 
         val token = auth.split(" ")[1]
-        val payload = Jwts.parser().verifyWith(jwtUtil.stringToPublicKey(publicKey)).build().parseSignedClaims(token).payload
+        val payload = Jwts.parser().verifyWith(keyConverter.stringToPublicKey(publicKey)).build().parseSignedClaims(token).payload
 
         assertNotNull(payload["nickName"])
         assertEquals("testUser", payload["nickName"])
