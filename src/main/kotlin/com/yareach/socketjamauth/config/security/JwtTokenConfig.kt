@@ -1,6 +1,6 @@
 package com.yareach.socketjamauth.config.security
 
-import com.yareach.socketjamauth.utils.ResourceUtil
+import com.yareach.socketjamcommon.utils.ResourceUtil
 import com.yareach.socketjamcommon.domain.security.JwtTokenDecoder
 import com.yareach.socketjamcommon.domain.security.JwtTokenEncoder
 import com.yareach.socketjamcommon.utils.KeyConverter
