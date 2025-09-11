@@ -8,8 +8,8 @@ import java.util.UUID
 class AuthService(
     private val jwtTokenEncoder: JwtTokenEncoder,
 ) {
-    suspend fun generateToken(username: String): String {
+    suspend fun generateToken(nickName: String): String {
 
-        return jwtTokenEncoder.createJwt(username, UUID.randomUUID())
+        return jwtTokenEncoder.createJwt(nickName, UUID.randomUUID())
     }
 }

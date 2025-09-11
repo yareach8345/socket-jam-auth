@@ -28,7 +28,7 @@ class AuthController(
         @RequestBody dto: TokenRequestDto
     ): ResponseEntity<String> {
         try {
-            val token = authService.generateToken(dto.userName)
+            val token = authService.generateToken(dto.nickName)
 
             return ResponseEntity.ok()
                 .header("Authorization", "Bearer $token")
